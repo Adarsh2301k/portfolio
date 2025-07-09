@@ -60,15 +60,17 @@ const selectItems = document.querySelectorAll("[data-select-item]");
 const selectValue = document.querySelector("[data-selecct-value]");
 const filterBtn = document.querySelectorAll("[data-filter-btn]");
 
-select.addEventListener("click", function () { elementToggleFunc(this); });
+if (select) {
+  select.addEventListener("click", function () { elementToggleFunc(this); });
+}
 
 // add event in all select items
 for (let i = 0; i < selectItems.length; i++) {
   selectItems[i].addEventListener("click", function () {
 
     let selectedValue = this.innerText.toLowerCase();
-    selectValue.innerText = this.innerText;
-    elementToggleFunc(select);
+    if (selectValue) selectValue.innerText = this.innerText;
+    if (select) elementToggleFunc(select);
     filterFunc(selectedValue);
 
   });
@@ -142,7 +144,7 @@ const pages = document.querySelectorAll("[data-page]");
 // add event to all nav link
 for (let i = 0; i < navigationLinks.length; i++) {
   navigationLinks[i].addEventListener("click", function () {
-    const targetPage = this.innerHTML.toLowerCase();
+    const targetPage = this.getAttribute("data-page");
     pages.forEach(page => {
       if (page.dataset.page === targetPage) {
         page.classList.add("active");
@@ -151,7 +153,7 @@ for (let i = 0; i < navigationLinks.length; i++) {
       }
     });
     navigationLinks.forEach(link => {
-      if (link.innerHTML.toLowerCase() === targetPage) {
+      if (link.getAttribute("data-page") === targetPage) {
         link.classList.add("active");
       } else {
         link.classList.remove("active");
